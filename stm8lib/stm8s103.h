@@ -88,4 +88,14 @@
 #define TIM4_IER_TIE (1 << 6)
 #define TIM4_SR_UIF (1 << 0)
 
+// SPI
+#define SPI_CR1	_SFR_(0x200)
+#define SPI_CR2	_SFR_(0x201)
+#define SPI_ICR	_SFR_(0x202)
+#define SPI_SR	_SFR_(0x203)
+#define SPI_DR	_SFR_(0x204)
+#define SPI_CRCPR	_SFR_(0x205)
+#define SPI_RXCRCR	_SFR_(0x206)
+#define SPI_TXCRCR	_SFR_(0x207)
+
 #endif
