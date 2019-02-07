@@ -1,10 +1,14 @@
 #include <stdint.h>
 #include "stm8lib/stm8s103.h"
 #include "stm8lib/stm8_timer.h"
+#include "stm8lib/stm8_spi.h"
+
+#include "display.h"
 
 #define F_CPU 16000000UL
 
 #define LED_PIN 5 // PB5d
+
 
 static inline void tim4_setup(void)
 {
@@ -79,6 +83,9 @@ void tim1_cc_isr(void) __interrupt(TIM1_CC_ISR)
 
 void main()
 {
+    uint8_t send[] = {1,2,3,4,5,6,7,8};
+    uint16_t color = 0;
+
     __asm__("rim"); //enable interrupts
 
     CLK_CKDIVR = 0x00; // Set clock scaler to div 1 (16MHz if using HSI)
@@ -90,10 +97,13 @@ void main()
     PB_DDR |= (1 << LED_PIN); // configure PB4 as output
     PB_CR1 |= (1 << LED_PIN); // push-pull mode
 
+    ili_init();
+
     while (1)
     {
+        ili_fill_rect( 0, 0, 128, 128, color++);
         // wait for interrupt
-        __asm__("wfi");
+        //__asm__("wfi");
         /* toggle pin every 250ms */
         //PB_ODR ^= (1 << LED_PIN);
         //delay_ms(250);

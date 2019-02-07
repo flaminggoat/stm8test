@@ -37,6 +37,13 @@ void stm8_tim1235_set_arr(uint8_t tim, uint16_t arr)
 
 }
 
+/**
+ * @brief Set capture compare register
+ * 
+ * @param tim timer to modify (1, 2, 3, 5)
+ * @param cc capture compare register to modify (1 to 4)
+ * @param value value to set register to 
+ */
 void stm8_tim1235_set_ccr(uint8_t tim, uint8_t cc, uint16_t value)
 {
 	STM8_ASSERT( tim >= 1 && tim <= 5 && tim != 4 );
