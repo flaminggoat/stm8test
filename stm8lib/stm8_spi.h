@@ -64,6 +64,6 @@ void stm8_spi_set_cr1(uint8_t lsbfirst, uint8_t enable, uint8_t baudrate, uint8_
 void stm8_spi_set_cr2(uint8_t bdm, uint8_t bdoe, uint8_t crc_en, uint8_t crcnext,
 					  uint8_t rxonly, uint8_t ssm, uint8_t ssi);
 void stm8_spi_disable();
-void stm8_spi_sendrecv(uint8_t * send, uint8_t * recv, uint8_t length);
+void stm8_spi_sendrecv(const uint8_t * send, uint8_t * recv, uint8_t length);
 
 #endif

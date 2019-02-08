@@ -30,7 +30,7 @@ void stm8_spi_disable()
 	// TODO other configurations
 }
 
-void stm8_spi_sendrecv(uint8_t * send, uint8_t * recv, uint8_t length)
+void stm8_spi_sendrecv(const uint8_t * send, uint8_t * recv, uint8_t length)
 {
 	uint8_t dummy_read;
 

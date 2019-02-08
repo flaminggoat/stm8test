@@ -1,14 +1,15 @@
 #include <stdint.h>
+#include <stdlib.h>
 #include "stm8lib/stm8s103.h"
 #include "stm8lib/stm8_timer.h"
 #include "stm8lib/stm8_spi.h"
+#include "stm8lib/stm8_helper.h"
 
 #include "display.h"
 
 #define F_CPU 16000000UL
 
 #define LED_PIN 5 // PB5d
-
 
 static inline void tim4_setup(void)
 {
@@ -83,10 +84,9 @@ void tim1_cc_isr(void) __interrupt(TIM1_CC_ISR)
 
 void main()
 {
-    uint8_t send[] = {1,2,3,4,5,6,7,8};
-    uint16_t color = 0;
-
     __asm__("rim"); //enable interrupts
+
+    srand(0);
 
     CLK_CKDIVR = 0x00; // Set clock scaler to div 1 (16MHz if using HSI)
 
@@ -101,7 +101,39 @@ void main()
 
     while (1)
     {
-        ili_fill_rect( 0, 0, 128, 128, color++);
+        static int8_t x = 0, y = 0;
+        static int8_t dx = 1, dy = 1;
+        static char ltr = ' ';
+        //ili_fill_rect( 0, 0, 128, 128, rand()%0xffff);
+        //ili_fill_rect( rand()%64, rand()%64, rand()%64 + 64, rand()%64 + 64, rand()%0xffff);
+
+        //ili_set_pixel(x,y, (uint16_t)rand());
+        //ili_draw_char(x, y, 0xff, ltr);
+
+        ili_draw_string(x, y, 2, 0xff, "FONT");
+        stm8_delay_ms(20);
+        ili_fill_rect(x, y, x + 30, y + 12, 0);
+
+        x += dx;
+        y += dy;
+
+        if (x > 127 - 30 || x < 0)
+        {
+            dx = -dx;
+            x += dx;
+        }
+
+        if (y > 127 - 12 || y < 0)
+        {
+            dy = -dy;
+            y += dy;
+        }
+
+        if (++ltr == '~' + 1)
+        {
+            ltr = ' ';
+        }
+
         // wait for interrupt
         //__asm__("wfi");
         /* toggle pin every 250ms */
